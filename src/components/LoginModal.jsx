@@ -85,7 +85,7 @@ const LoginModal = ({ show, onClose, onForgetPassword }) => {
         />
         <p className='flex justify-end mb-4'>
           <span className='text-[#163390] cursor-pointer' onClick={onForgetPassword}>
-            Forget Password?
+            Forgeta Password?
           </span>
         </p>
         <div className='flex items-center justify-center'>
