@@ -1,25 +1,35 @@
 import React, { useState } from 'react'
 import LoginModal from '../components/LoginModal';
+import PasswordRecoveryModal from '../components/PasswordRecoveryModal';
 import Nupat from '../assets/nupat.jpg'
 
 
 const Authentication = () => {
     const [ isLoginModalOpen, setLoginModalOpen ] = useState (false);
+    const [ isPasswordRecoveryModalOpen, setPasswordRecoveryModalOpen] = useState (false);
 
     const openLoginModal = () => {
         setLoginModalOpen(true);
+        setPasswordRecoveryModalOpen(false);
     }
 
     const closeLoginModal = () => {
         setLoginModalOpen(false);
+    } 
+    const openPasswordRecoveryModal = () => {
+        setPasswordRecoveryModalOpen(true);
+        setLoginModalOpen(false);
+    };
+    const closePasswordRecoveryModal = () => {
+        setPasswordRecoveryModalOpen(false);
     }
 
     return (
         <div className='w-full bg-white py-20 px-4'>
             <div className="max-w-[1240px] mx-auto grid md:grid-cols-2">
-                <img className='w-[300px] mx-auto animate-bounce' src={Nupat} alt="NUPAT LOGO" />
+                <img className='w-28 pb-20 sm:w-40 sm:pb-20 md:w-60 lg:w-72 xl:w-80 mx-5 animate-pulse' src={Nupat} alt="NUPAT LOGO" />
                 <div className=''>
-                    <div className='w-[90%] max-w-sm mx-auto'>
+                    <div className='w-[90%] max-w-sm mx-7'>
                         <h1 className='text-4xl font-bold'>Tech around the world</h1>
                         <p className='py-4 text-2xl font-semibold'>Join today,</p>
 
@@ -65,7 +75,8 @@ const Authentication = () => {
                             Login
                         </button>
                     </div>
-                    <LoginModal show={isLoginModalOpen} onClose = {closeLoginModal} />
+                    <LoginModal show={isLoginModalOpen} onClose = {closeLoginModal} onForgetPassword={openPasswordRecoveryModal} />
+                    <PasswordRecoveryModal show={isPasswordRecoveryModalOpen} onClose = {closePasswordRecoveryModal} />
                 </div>
                   
             </div>

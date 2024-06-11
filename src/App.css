@@ -8,9 +8,10 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  z-index: 1000;
 }
 
-.modal-content {
+/* .modal-content {
   background: white;
   display: flex;
   justify-content: center;
@@ -19,4 +20,12 @@
   border-radius: 8px;
   max-width: 500px;
   width: 100%;
+} */
+
+.modal-content {
+  width: 90%;
+  max-width: 500px;
+  max-height: 90vh;
+  overflow-y: auto;
+  position: relative;
 }

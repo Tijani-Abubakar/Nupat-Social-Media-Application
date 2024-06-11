@@ -2,6 +2,7 @@ import React from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
 import Authentication from './components/Authentication';
 import LoginModal from './components/LoginModal';
+import PasswordRecoveryModal from './components/PasswordRecoveryModal';
 
 
 function App() {
@@ -15,6 +16,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Authentication />} />
         <Route path="/login" element={<LoginModal />} />
+        <Route path="/recovery" element={<PasswordRecoveryModal />} />
       </Routes>
     </Router>
   );

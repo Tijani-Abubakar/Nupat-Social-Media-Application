@@ -1,34 +1,34 @@
 import React, { useState } from 'react';
 import { AiOutlineClose } from 'react-icons/ai';
 import Modal from 'react-modal';
-
+import PasswordRecoveryModal from './PasswordRecoveryModal';
 
 Modal.setAppElement('#root');
 
-const LoginModal = ({ show, onClose }) => {
-  const [loginValue, setLoginValue] = useState('');
+const LoginModal = ({ show, onClose, onForgetPassword }) => {
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
+  const [isPasswordRecoveryModalOpen, setPasswordRecoveryModalOpen] = useState(false);
 
   const handleLogin = (event) => {
     event.preventDefault();
-    if (validateInput(loginValue, password)) {
-      const isAuthenticated = fakeAuth(loginValue, password);
+    if (validateInput(email, password)) {
+      const isAuthenticated = fakeAuth(email, password);
       if (isAuthenticated) {
         onClose();
       } else {
-        setError('Invalid email, phone number, or password');
+        setError('Invalid email or password');
       }
     }
   };
 
-  const validateInput = (loginValue, password) => {
+  const validateInput = (email, password) => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    const phoneRegex = /^\d{10}$/;
     const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/;
 
-    if (!emailRegex.test(loginValue) && !phoneRegex.test(loginValue)) {
-      setError('Invalid email or phone number format');
+    if (!emailRegex.test(email)) {
+      setError('Invalid email format');
       return false;
     }
     if (!passwordRegex.test(password)) {
@@ -39,9 +39,18 @@ const LoginModal = ({ show, onClose }) => {
     return true;
   };
 
-  const fakeAuth = (loginValue, password) => {
-    return (loginValue === 'test@example.com' || loginValue === '1234567890') && password === 'Password123';
+  const fakeAuth = (email, password) => {
+    return email === 'test@example.com' && password === 'Password123';
   };
+
+  const openPasswordRecoveryModal = () => {
+    setPasswordRecoveryModalOpen(true);
+  };
+
+  const closePasswordRecoveryModal = () => {
+    setPasswordRecoveryModalOpen(false);
+  };
+
   if (!show) return null;
 
   return (
@@ -53,39 +62,41 @@ const LoginModal = ({ show, onClose }) => {
       overlayClassName="modal-overlay"
     >
       <div className='bg-white rounded-lg shadow-lg w-full max-w-md p-6 relative'>
-        <button className='absolute top-4 right-4 text-gray-600' onClick={onClose}>
+        <button className='absolute top-7 right-4 text-gray-600' onClick={onClose}>
           <AiOutlineClose size={24} />
         </button>
-        <h1 className='text-2xl font-bold mb-4'>Log In</h1>
-        <p className='mb-4'>It's quick and easy.</p>
+        <h1 className='text-2xl font-bold mb-'>Log In</h1>
+        <p className='mb-6'>It's quick and easy.</p>
+        <div className='border-b border-gray-500 mb-6'></div>
         {error && <p className='text-red-500 mb-4'>{error}</p>}
         <input
           type="text"
-          placeholder="Email or Phone Number"
-          value={loginValue}
-          onChange={(e) => setLoginValue(e.target.value)}
+          placeholder="Email Address"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
           className='w-full p-2 mb-4 border border-gray-300 rounded'
         />
         <input
           type="password"
-          placeholder="Password"
           value={password}
+          placeholder='Password'
           onChange={(e) => setPassword(e.target.value)}
           className='w-full p-2 mb-4 border border-gray-300 rounded'
         />
         <p className='flex justify-end mb-4'>
-          <span className='text-[#163390]'>
-            Forget Password
+          <span className='text-[#163390] cursor-pointer' onClick={onForgetPassword}>
+            Forget Password?
           </span>
         </p>
         <div className='flex items-center justify-center'>
-        <button
-          onClick={handleLogin}
-          className='w-[50%] bg-[#163390] text-white p-2 rounded'
-        >
-          Log In
-        </button>
+          <button
+            onClick={handleLogin}
+            className='w-[50%] bg-[#163390] font-bold text-white p-2 rounded'
+          >
+            Log In
+          </button>
         </div>
+        <PasswordRecoveryModal show={isPasswordRecoveryModalOpen} onClose={closePasswordRecoveryModal} />
       </div>
     </Modal>
   );
